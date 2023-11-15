@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 const { dbConnection } = require('../database/config')
 
 class Server{
@@ -7,7 +8,13 @@ class Server{
         this.app = express()
         this.port = process.env.PORT
         this.conecDB()
+        this.middleware()
         this.router()
+    }
+
+    middleware(){
+        this.app.use(cors())
+        this.app.use(express.json())
     }
 
     async conecDB (){
