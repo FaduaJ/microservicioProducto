@@ -5,9 +5,7 @@ const Product= require('../models/product.model')
 const postProduct=async(req=request, res=response)=>{
    
     try {
-        const {name,brand,amount,minimum_amount, price, unit}=req.body
-        const category = req.category
-        const supplier = req.supplier
+        const {name,brand,amount,minimum_amount, price, unit,category,supplier}=req.body
         const produc = new Product ({name,brand,amount,minimum_amount, price, unit,category,supplier})
         await produc.save()
         res.json({
@@ -20,10 +18,10 @@ const postProduct=async(req=request, res=response)=>{
     }
     
 }
-const getAllProducs =async (req=request, res=response)=>{
+const getAllProducts =async (req=request, res=response)=>{
     try {
-        const producs = await Produc.find()
-        res.json({producs})
+        const products = await Product.find()
+        res.json({products})
         
     } catch (error) {
         console.log(error)
@@ -34,9 +32,7 @@ const getAllProducs =async (req=request, res=response)=>{
 const editProduct = async (req = request, res = response) => {
     try {
         const productId = req.params.id; 
-        const category = req.category
-        const supplier = req.supplier
-        const { name, brand, amount, minimum_amount, price, unit } = req.body;
+        const { name, brand, amount, minimum_amount, price, unit,category,supplier} = req.body;
         
         const updatedProduct = await Product.findByIdAndUpdate(
             productId,
@@ -58,4 +54,4 @@ const editProduct = async (req = request, res = response) => {
     }
 };
 
-module.exports={postProduct,getAllProducs,editProduct}
+module.exports={postProduct,getAllProducts,editProduct}
