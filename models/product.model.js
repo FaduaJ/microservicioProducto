@@ -24,12 +24,12 @@ const productSchema = Schema({
         type:String,
         required:true
     },
-    category:{
+    categoryId:{
         type:Schema.Types.ObjectId,
         ref:'Category',
         required:true
     },
-    supplier:{
+    supplierId:{
         type:Schema.Types.ObjectId,
         ref:'Supplier',
         required:true

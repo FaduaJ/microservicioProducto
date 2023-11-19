@@ -5,8 +5,8 @@ const Product= require('../models/product.model')
 const postProduct=async(req=request, res=response)=>{
    
     try {
-        const {name,brand,amount,minimum_amount, price, unit,category,supplier}=req.body
-        const produc = new Product ({name,brand,amount,minimum_amount, price, unit,category,supplier})
+        const {name,brand,amount,minimum_amount, price, unit,categoryId,supplierId}=req.body
+        const produc = new Product ({name,brand,amount,minimum_amount, price, unit,categoryId,supplierId})
         await produc.save()
         res.json({
             msg:'PRODUCTO CREADO',
@@ -29,14 +29,26 @@ const getAllProducts =async (req=request, res=response)=>{
     }
 }
 
+const getAllProductsCategory =async (req=request, res=response)=>{
+    try {
+        const categoryId = req.params.categoryId; 
+        const productsInCategory = await Product.find({categoryId});
+        console.log(productsInCategory)
+        res.json({ products: productsInCategory });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: 'Hubo un error al obtener los productos por categoría' });
+    }
+}
+
 const editProduct = async (req = request, res = response) => {
     try {
         const productId = req.params.id; 
-        const { name, brand, amount, minimum_amount, price, unit,category,supplier} = req.body;
+        const { name, brand, amount, minimum_amount, price, unit,categoryId,supplierId} = req.body;
         
         const updatedProduct = await Product.findByIdAndUpdate(
             productId,
-            { name, brand, amount, minimum_amount, price, unit,category,supplier},
+            { name, brand, amount, minimum_amount, price, unit,categoryId,supplierId},
             { new: true }
         );
 
@@ -54,4 +66,4 @@ const editProduct = async (req = request, res = response) => {
     }
 };
 
-module.exports={postProduct,getAllProducts,editProduct}
+module.exports={postProduct,getAllProducts,editProduct,getAllProductsCategory}
